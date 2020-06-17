@@ -6,6 +6,7 @@ import com.vineeth.ems.entities.Employee;
 import com.vineeth.ems.exceptions.EmployeeServiceException;
 import com.vineeth.ems.exceptions.ValidationException;
 import com.vineeth.ems.service.EmployeeService;
+import com.vineeth.ems.util.MDCUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +28,7 @@ public class EmployeeController {
 
     @PostMapping("/create")
     public ResponseEntity<EmployeeResponse> createEmployee(@RequestBody CreateEmployeeRequest createEmployeeRequest) {
+        MDCUtil.setupMDCContext();
         try {
             employeeRequestValidator.validateCreateEmployeeRequest(createEmployeeRequest);
             Employee employee = employeeService.createEmployee(createEmployeeRequest);
@@ -38,12 +40,15 @@ public class EmployeeController {
         } catch (ValidationException e) {
             return new ResponseEntity<>(new EmployeeResponse(Status.FAILED, null, e.getMessage()),
                     HttpStatus.BAD_REQUEST);
+        } finally {
+            MDCUtil.clearMDCContext();
         }
     }
 
     @GetMapping("/search")
     public ResponseEntity<EmployeeResponse> searchEmployee(@RequestParam(value = "name", required = false) String name,
                                                            @RequestParam(value = "age", required = false) Integer age) {
+        MDCUtil.setupMDCContext();
         try {
             SearchEmployeeRequest searchEmployeeRequest = new SearchEmployeeRequest(name, age);
             employeeRequestValidator.validateSearchEmployeeRequest(searchEmployeeRequest);
@@ -53,6 +58,8 @@ public class EmployeeController {
         } catch (ValidationException e) {
             return new ResponseEntity<>(new EmployeeResponse(Status.FAILED, null, e.getMessage()),
                     HttpStatus.BAD_REQUEST);
+        } finally {
+            MDCUtil.clearMDCContext();
         }
     }
 }

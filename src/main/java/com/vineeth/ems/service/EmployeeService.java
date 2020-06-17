@@ -67,7 +67,9 @@ public class EmployeeService {
             newEmployee.setLastUpdatedEpochTime(System.currentTimeMillis());
             return employeeRepository.save(newEmployee);
         } catch (PayrollServiceException p) {
-            throw new EmployeeServiceException();
+            logger.error("Error creating employee", p);
+            throw new EmployeeServiceException(String.format(
+                    "Error creating employee due to exception in payroll service %s", p.getMessage()));
         }
     }
 

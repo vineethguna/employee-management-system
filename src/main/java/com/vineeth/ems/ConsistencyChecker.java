@@ -6,6 +6,7 @@ import com.vineeth.ems.entities.EmployeeStatus;
 import com.vineeth.ems.entities.repository.EmployeeRepository;
 import com.vineeth.ems.exceptions.PayrollServiceException;
 import com.vineeth.ems.service.PayrollService;
+import com.vineeth.ems.util.MDCUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +34,7 @@ public class ConsistencyChecker {
     @Scheduled(fixedDelayString = "${consistency.fixed.delay.milliseconds}",
             initialDelayString = "${consistency.initial.delay.milliseconds}")
     public void scheduleConsistencyCheck() {
+        MDCUtil.setupMDCContext();
         logger.info("Started checking for consistency");
         List<Employee> employees = filterEmployees(employeeRepository.findByEmployeeStatusIn(employeeStatusToSearch));
         if(employees.size() > 0) {
@@ -40,6 +42,7 @@ public class ConsistencyChecker {
             deleteEmployees(employees, userNameToPayrollInfo);
         }
         logger.info("Completed consistency check");
+        MDCUtil.clearMDCContext();
     }
 
     private List<Employee> filterEmployees(List<Employee> employees) {
