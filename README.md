@@ -10,6 +10,34 @@ It makes sure the data is consistent across employee service and payroll service
 
 Swagger is integrated into this project you can test and play with the APIs at http://localhost:8080/swagger-ui.html
 
+#### Curl Request for the APIS
+
+Create Employee API
+```
+ curl --location --request POST 'http://localhost:8080/api/v1/employee/create' \
+ --header 'content_type: application/json' \
+ --header 'Content-Type: application/json' \
+ --data-raw '{
+ 	"firstName": "Vineeth",
+ 	"lastName": "Guna",
+ 	"age": 24,
+ 	"salary": 1200000
+ }'
+```
+
+Search Employee API
+
+```
+curl --location --request GET 'http://localhost:8080/api/v1/employee/search?name=vineeth&age=27' \
+--header 'content_type: application/json'
+
+curl --location --request GET 'http://localhost:8080/api/v1/employee/search?name=vineeth' \
+--header 'content_type: application/json'
+
+curl --location --request GET 'http://localhost:8080/api/v1/employee/search?age=27' \
+--header 'content_type: application/json'
+```
+
 ## Prerequisites
 * Docker
 * Java 8

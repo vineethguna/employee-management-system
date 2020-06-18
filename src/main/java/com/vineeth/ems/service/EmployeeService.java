@@ -22,7 +22,7 @@ import javax.transaction.Transactional;
 import java.util.List;
 
 @Component
-public class EmployeeService {
+public class  EmployeeService {
     private static final Logger logger = LoggerFactory.getLogger(EmployeeService.class);
 
     @Autowired

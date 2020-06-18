@@ -16,6 +16,10 @@ public class EmployeeRequestValidator {
         if(createEmployeeRequest.getSalary() <= 0) {
             throw new ValidationException(ErrorMessages.EMPLOYEE_SALARY_VALIDATION_ERROR);
         }
+        if(createEmployeeRequest.getFirstName().matches(".*\\d.*") ||
+                createEmployeeRequest.getLastName().matches(".*\\d.*")) {
+            throw new ValidationException(ErrorMessages.EMPLOYEE_NAME_VALIDATION_ERROR);
+        }
     }
 
     public void validateSearchEmployeeRequest(SearchEmployeeRequest searchEmployeeRequest)
