@@ -47,7 +47,7 @@ curl --location --request GET 'http://localhost:8080/api/v1/employee/search?age=
 
 * Clone this git repo
 * Start docker
-* Run `sh build.sh` which creates a docker container
+* Run `sh build.sh` which creates a docker image for the service
 * Run the created docker container by `docker run -p 8080:8080 vineeth/ems`
 
 ## Running unit tests
